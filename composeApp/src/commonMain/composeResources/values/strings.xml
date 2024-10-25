@@ -1,0 +1,11 @@
+<resources>
+    <string name="movies_in_theaters">Movies in Theaters</string>
+    <string name="airing_tv_series">Airing TV Series</string>
+    <string name="genres">Genres</string>
+    <string name="production">Production</string>
+    <string name="cast">Cast</string>
+    <string name="search">Search…</string>
+    <string name="crew">Crew</string>
+    <string name="reviews">Reviews</string>
+    <string name="favourites">My Watch List</string>
+</resources>
