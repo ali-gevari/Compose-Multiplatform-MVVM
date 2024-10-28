@@ -8,6 +8,7 @@ import org.movies.kmp.compose.OverviewScreen
 fun App() {
     MaterialTheme {
         OverviewScreen(
+            onSearchItemClick = {},
             onMovieItemClick = {},
             onShowItemClick = {}
         )

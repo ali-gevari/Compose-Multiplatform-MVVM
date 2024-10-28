@@ -10,15 +10,19 @@ import org.movies.kmp.allMovies.domain.model.MovieProgram
 import org.movies.kmp.allMovies.presentation.AllMoviesScreen
 import org.movies.kmp.allShows.domain.model.ShowProgram
 import org.movies.kmp.allShows.presentation.AllShowsScreen
+import org.movies.kmp.search.domain.model.SearchProgram
+import org.movies.kmp.search.presentation.SearchScreen
 
 @Composable
 fun OverviewScreen(
+    onSearchItemClick: (SearchProgram) -> Unit,
     onMovieItemClick: (MovieProgram) -> Unit,
     onShowItemClick: (ShowProgram) -> Unit
 
 ) {
     Column {
         Spacer(Modifier.height(16.dp))
+        SearchScreen(onItemClick = onSearchItemClick)
         AllMoviesScreen(onItemClick = onMovieItemClick)
         AllShowsScreen(onItemClick = onShowItemClick)
     }
