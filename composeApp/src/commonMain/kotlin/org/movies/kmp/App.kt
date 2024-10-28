@@ -2,11 +2,14 @@ package org.movies.kmp
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-import org.movies.kmp.allMovies.presentation.AllMoviesScreen
+import org.movies.kmp.compose.OverviewScreen
 
 @Composable
 fun App() {
     MaterialTheme {
-        AllMoviesScreen {}
+        OverviewScreen(
+            onMovieItemClick = {},
+            onShowItemClick = {}
+        )
     }
 }
