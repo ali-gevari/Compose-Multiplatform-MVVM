@@ -4,6 +4,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.movies.kmp.allMovies.di.allMoviesModules
 import org.movies.kmp.allShows.di.allShowsModules
+import org.movies.kmp.credits.di.creditsModules
 import org.movies.kmp.details.di.detailsModules
 import org.movies.kmp.search.di.searchModules
 
@@ -18,7 +19,8 @@ fun initializeKoin() {
             allMoviesModules,
             allShowsModules,
             searchModules,
-            detailsModules
+            detailsModules,
+            creditsModules
         )
     }
 }

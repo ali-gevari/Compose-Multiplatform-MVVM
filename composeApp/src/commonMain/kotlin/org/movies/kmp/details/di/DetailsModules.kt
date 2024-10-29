@@ -12,5 +12,5 @@ val detailsModules = module {
     single { DetailsApi(get()) }
     single<DetailsRepository> { DetailsRepositoryImpl(detailsApi = get()) }
     single { GetDetailsUseCase(get()) }
-    viewModel { DetailsViewModel(get()) }
+    viewModel { DetailsViewModel(get(), get()) }
 }

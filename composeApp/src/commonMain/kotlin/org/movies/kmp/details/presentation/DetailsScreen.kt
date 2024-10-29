@@ -31,14 +31,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.cast
+import movieskmp.composeapp.generated.resources.crew
 import movieskmp.composeapp.generated.resources.genres
 import movieskmp.composeapp.generated.resources.production
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.movies.kmp.compose.Banner
+import org.movies.kmp.compose.CastCrewCard
 import org.movies.kmp.compose.GenreChips
 import org.movies.kmp.compose.ProductionCompanyCard
+import org.movies.kmp.credits.presentation.CreditsViewState
 import org.movies.kmp.util.ProgramType
 import org.movies.kmp.util.programTypeToEnum
 
@@ -53,12 +57,14 @@ internal fun DetailsScreen(
     val type = remember(programType) { programType ?: "Unknown Type" }.programTypeToEnum()
     val viewModel = koinViewModel<DetailsViewModel>()
     val detailsState by viewModel.detailsState.collectAsState()
+    val creditsState by viewModel.creditsState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.getDetails(id, type)
     }
     ProgramDetailsContent(
         navController = navController,
         detailsState = detailsState,
+        creditsState = creditsState,
         id = id,
         type = type
     )
@@ -68,6 +74,7 @@ internal fun DetailsScreen(
 fun ProgramDetailsContent(
     navController: NavController,
     detailsState: DetailsViewState,
+    creditsState: CreditsViewState,
     id: Int,
     type: ProgramType
 ) {
@@ -170,6 +177,50 @@ fun ProgramDetailsContent(
                 ) {
                     items(detailsState.details.productionCompany) { company ->
                         ProductionCompanyCard(productionCompany = company)
+                    }
+                }
+            }
+            item {
+                Text(
+                    text = stringResource(Res.string.cast),
+                    modifier = Modifier.padding(8.dp),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+            item {
+                LazyRow(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp)
+
+                ) {
+                    items(creditsState.credit.cast) { cast ->
+                        CastCrewCard(
+                            name = cast.originalName, image = cast.profilePath
+                        )
+                    }
+                }
+            }
+            item {
+                Text(
+                    text = stringResource(Res.string.crew),
+                    modifier = Modifier.padding(8.dp),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+            item {
+                LazyRow(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp)
+
+                ) {
+                    items(creditsState.credit.crew) { cast ->
+                        CastCrewCard(
+                            name = cast.originalName, image = cast.profilePath
+                        )
                     }
                 }
             }
