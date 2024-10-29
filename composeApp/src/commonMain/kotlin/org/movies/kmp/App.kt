@@ -3,7 +3,6 @@ package org.movies.kmp
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,10 +13,11 @@ import org.movies.kmp.navigation.AppNavHost
 import org.movies.kmp.navigation.Overview
 import org.movies.kmp.navigation.bottomBarScreens
 import org.movies.kmp.util.navigateSingleTopTo
+import ui.theme.MovieDatabaseTheme
 
 @Composable
 fun App() {
-    MaterialTheme {
+    MovieDatabaseTheme {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
@@ -39,11 +39,10 @@ fun App() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        bottom = padding.calculateBottomPadding(),
-                        top = padding.calculateTopPadding()
+                        bottom = padding.calculateBottomPadding()
                     )
             ) {
-                AppNavHost(navController = navController)
+                AppNavHost(navController = navController, padding)
             }
         }
     }

@@ -6,7 +6,7 @@ import org.movies.kmp.search.domain.model.SearchProgram
 import org.movies.kmp.util.Constant.IMAGE_BASE_URL
 import org.movies.kmp.util.ProgramType
 
-fun List<MovieDto>.mapToSearchProgramList(): List<SearchProgram> {
+fun List<MovieDto>.mapMovieToSearchProgramList(): List<SearchProgram> {
     return this.map {
         SearchProgram(
             id = it.id,
@@ -17,7 +17,7 @@ fun List<MovieDto>.mapToSearchProgramList(): List<SearchProgram> {
     }
 }
 
-fun List<ShowDto>.mapToSearchProgramList(): List<SearchProgram> {
+fun List<ShowDto>.mapShowToSearchProgramList(): List<SearchProgram> {
     return this.map {
         SearchProgram(
             id = it.id,

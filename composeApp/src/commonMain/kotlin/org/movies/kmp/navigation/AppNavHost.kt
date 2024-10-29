@@ -1,5 +1,6 @@
 package org.movies.kmp.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,7 +13,8 @@ import org.movies.kmp.util.navigateToDetails
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    padding: PaddingValues
 ) {
     NavHost(
         navController = navController,
@@ -20,6 +22,7 @@ fun AppNavHost(
     ) {
         composable(route = Overview.route) {
             OverviewScreen(
+                padding,
                 onSearchItemClick = { program ->
                     navController.navigateToDetails(program.id, program.programType.type)
                 },
@@ -42,7 +45,9 @@ fun AppNavHost(
         ) { navBackStackEntry ->
             val programId =
                 navBackStackEntry.arguments?.getInt(Details.PROGRAM_ID)
-            DetailsScreen(programId)
+            val programType =
+                navBackStackEntry.arguments?.getString(Details.PROGRAM_TYPE)
+            DetailsScreen(navController, programId, programType)
         }
     }
 }
