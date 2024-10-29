@@ -2,7 +2,8 @@ package org.movies.kmp.search.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.movies.kmp.search.data.model.mapToSearchProgramList
+import org.movies.kmp.search.data.model.mapMovieToSearchProgramList
+import org.movies.kmp.search.data.model.mapShowToSearchProgramList
 import org.movies.kmp.search.data.remote.SearchApi
 import org.movies.kmp.search.domain.model.SearchProgram
 import org.movies.kmp.search.domain.repository.SearchRepository
@@ -13,9 +14,9 @@ class SearchRepositoryImpl(
 
     override fun searchPrograms(query: String): Flow<List<SearchProgram>> = flow {
         val movies = searchApi.searchMovies(query)
-            .allMovies.mapToSearchProgramList()
+            .allMovies.mapMovieToSearchProgramList()
         val shows = searchApi.searchShows(query)
-            .allShows.mapToSearchProgramList()
+            .allShows.mapShowToSearchProgramList()
 
         val allSearchPrograms = mutableListOf<SearchProgram>().apply {
             addAll(movies)
