@@ -7,6 +7,7 @@ import org.movies.kmp.allMovies.di.allMoviesModules
 import org.movies.kmp.allShows.di.allShowsModules
 import org.movies.kmp.credits.di.creditsModules
 import org.movies.kmp.details.di.detailsModules
+import org.movies.kmp.favourites.di.favouritesModules
 import org.movies.kmp.search.di.searchModules
 import org.movies.kmp.toggleFavourite.di.toggleFavouriteModules
 
@@ -24,7 +25,8 @@ fun initializeKoin() {
             detailsModules,
             creditsModules,
             accountStatesModules,
-            toggleFavouriteModules
+            toggleFavouriteModules,
+            favouritesModules
         )
     }
 }

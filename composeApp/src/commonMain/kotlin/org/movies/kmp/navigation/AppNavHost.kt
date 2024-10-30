@@ -36,7 +36,12 @@ fun AppNavHost(
         }
 
         composable(route = Favourites.route) {
-            FavouritesScreen()
+            FavouritesScreen(
+                padding,
+                onItemClick = { program ->
+                    navController.navigateToDetails(program.id, program.programType.type)
+                }
+            )
         }
 
         composable(
