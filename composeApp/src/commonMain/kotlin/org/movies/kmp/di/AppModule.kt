@@ -2,6 +2,7 @@ package org.movies.kmp.di
 
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import org.movies.kmp.accountStates.di.accountStatesModules
 import org.movies.kmp.allMovies.di.allMoviesModules
 import org.movies.kmp.allShows.di.allShowsModules
 import org.movies.kmp.credits.di.creditsModules
@@ -20,7 +21,8 @@ fun initializeKoin() {
             allShowsModules,
             searchModules,
             detailsModules,
-            creditsModules
+            creditsModules,
+            accountStatesModules
         )
     }
 }

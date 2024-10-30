@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.movies.kmp.accountStates.domain.useCase.GetAccountStatesUseCase
+import org.movies.kmp.accountStates.presentation.AccountStatesViewState
 import org.movies.kmp.credits.domain.useCase.GetCreditsUseCase
 import org.movies.kmp.credits.presentation.CreditsViewState
 import org.movies.kmp.details.domain.useCase.GetDetailsUseCase
@@ -17,6 +19,7 @@ import org.movies.kmp.util.ProgramType
 class DetailsViewModel(
     private val getDetailsUseCase: GetDetailsUseCase,
     private val getCreditsUseCase: GetCreditsUseCase,
+    private val getAccountStatesUseCase: GetAccountStatesUseCase
 ) : ViewModel() {
 
     private val _detailsState = MutableStateFlow(DetailsViewState())
@@ -24,6 +27,9 @@ class DetailsViewModel(
 
     private val _creditsState = MutableStateFlow(CreditsViewState())
     val creditsState = _creditsState.asStateFlow()
+
+    private val _accountState = MutableStateFlow(AccountStatesViewState())
+    val accountState = _accountState.asStateFlow()
 
     fun getDetails(programId: Int, programType: ProgramType) {
         viewModelScope.launch {
@@ -48,6 +54,7 @@ class DetailsViewModel(
                         it.copy(details = details)
                     }
                     getCredits(programId, programType)
+                    getAccountStates(programId, programType)
                 }
         }
     }
@@ -73,6 +80,32 @@ class DetailsViewModel(
                 .collect { credits ->
                     _creditsState.update {
                         it.copy(credit = credits)
+                    }
+                }
+        }
+    }
+
+    private fun getAccountStates(programId: Int, programType: ProgramType) {
+        viewModelScope.launch {
+            getAccountStatesUseCase(programId, programType)
+                .onStart {
+                    _creditsState.update {
+                        it.copy(isLoading = true)
+                    }
+                }
+                .catch { error ->
+                    _detailsState.update {
+                        it.copy(error = error.message)
+                    }
+                }
+                .onCompletion {
+                    _creditsState.update {
+                        it.copy(isLoading = false)
+                    }
+                }
+                .collect { state ->
+                    _accountState.update {
+                        it.copy(isFavourite = state.favorite)
                     }
                 }
         }

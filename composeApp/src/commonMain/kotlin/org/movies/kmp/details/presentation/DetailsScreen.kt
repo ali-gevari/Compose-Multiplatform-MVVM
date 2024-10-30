@@ -38,6 +38,7 @@ import movieskmp.composeapp.generated.resources.production
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.movies.kmp.accountStates.presentation.AccountStatesViewState
 import org.movies.kmp.compose.Banner
 import org.movies.kmp.compose.CastCrewCard
 import org.movies.kmp.compose.GenreChips
@@ -58,6 +59,7 @@ internal fun DetailsScreen(
     val viewModel = koinViewModel<DetailsViewModel>()
     val detailsState by viewModel.detailsState.collectAsState()
     val creditsState by viewModel.creditsState.collectAsState()
+    val accountState by viewModel.accountState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.getDetails(id, type)
     }
@@ -65,6 +67,7 @@ internal fun DetailsScreen(
         navController = navController,
         detailsState = detailsState,
         creditsState = creditsState,
+        accountStates = accountState,
         id = id,
         type = type
     )
@@ -75,6 +78,7 @@ fun ProgramDetailsContent(
     navController: NavController,
     detailsState: DetailsViewState,
     creditsState: CreditsViewState,
+    accountStates: AccountStatesViewState,
     id: Int,
     type: ProgramType
 ) {
@@ -120,7 +124,7 @@ fun ProgramDetailsContent(
                 }
             ) {
                 Icon(
-                    imageVector = if (true) // Replace `true` with your condition
+                    imageVector = if (accountStates.isFavourite)
                         Icons.Filled.Favorite
                     else
                         Icons.Filled.FavoriteBorder,
