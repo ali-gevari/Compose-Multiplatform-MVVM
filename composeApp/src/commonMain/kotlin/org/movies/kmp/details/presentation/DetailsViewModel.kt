@@ -14,12 +14,14 @@ import org.movies.kmp.accountStates.presentation.AccountStatesViewState
 import org.movies.kmp.credits.domain.useCase.GetCreditsUseCase
 import org.movies.kmp.credits.presentation.CreditsViewState
 import org.movies.kmp.details.domain.useCase.GetDetailsUseCase
+import org.movies.kmp.toggleFavourite.domain.useCase.ToggleFavouriteUseCase
 import org.movies.kmp.util.ProgramType
 
 class DetailsViewModel(
     private val getDetailsUseCase: GetDetailsUseCase,
     private val getCreditsUseCase: GetCreditsUseCase,
-    private val getAccountStatesUseCase: GetAccountStatesUseCase
+    private val getAccountStatesUseCase: GetAccountStatesUseCase,
+    private val toggleFavouriteUseCase: ToggleFavouriteUseCase
 ) : ViewModel() {
 
     private val _detailsState = MutableStateFlow(DetailsViewState())
@@ -107,6 +109,25 @@ class DetailsViewModel(
                     _accountState.update {
                         it.copy(isFavourite = state.favorite)
                     }
+                }
+        }
+    }
+
+    fun toggleFavourite(programId: Int, programType: ProgramType, isFavourite: Boolean) {
+        viewModelScope.launch {
+            toggleFavouriteUseCase(programId, programType, isFavourite)
+                .catch { error ->
+                    _detailsState.update {
+                        it.copy(error = error.message)
+                    }
+                }
+                .collect { toggleFavourite ->
+                    if (toggleFavourite.success) {
+                        _accountState.update {
+                            it.copy(isFavourite = isFavourite)
+                        }
+                    }
+
                 }
         }
     }

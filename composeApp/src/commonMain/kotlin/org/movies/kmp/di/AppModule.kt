@@ -8,6 +8,7 @@ import org.movies.kmp.allShows.di.allShowsModules
 import org.movies.kmp.credits.di.creditsModules
 import org.movies.kmp.details.di.detailsModules
 import org.movies.kmp.search.di.searchModules
+import org.movies.kmp.toggleFavourite.di.toggleFavouriteModules
 
 val appModule = module {
     single { provideClient() }
@@ -22,7 +23,8 @@ fun initializeKoin() {
             searchModules,
             detailsModules,
             creditsModules,
-            accountStatesModules
+            accountStatesModules,
+            toggleFavouriteModules
         )
     }
 }

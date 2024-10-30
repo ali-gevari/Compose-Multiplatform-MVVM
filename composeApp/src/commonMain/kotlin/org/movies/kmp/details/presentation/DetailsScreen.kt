@@ -69,7 +69,8 @@ internal fun DetailsScreen(
         creditsState = creditsState,
         accountStates = accountState,
         id = id,
-        type = type
+        type = type,
+        toggle = viewModel::toggleFavourite
     )
 }
 
@@ -80,7 +81,8 @@ fun ProgramDetailsContent(
     creditsState: CreditsViewState,
     accountStates: AccountStatesViewState,
     id: Int,
-    type: ProgramType
+    type: ProgramType,
+    toggle: (Int, ProgramType, Boolean) -> Unit
 ) {
     Column {
         Row(
@@ -120,7 +122,7 @@ fun ProgramDetailsContent(
             IconButton(
                 modifier = Modifier.size(36.dp),
                 onClick = {
-
+                    toggle(id, type, !accountStates.isFavourite)
                 }
             ) {
                 Icon(
